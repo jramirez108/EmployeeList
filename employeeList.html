@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="h1 text-center mb-2">Employee List</div>
+
+    <!--Input container-->
+    <div class="container">
+    <form id="employee-form">
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Name</span>
+        </div>
+        <input id="name" type="text" class="form-control" placeholder="Enter name here" aria-label="Username"
+            aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Email</span>
+        </div>
+        <input id="email" type="text" class="form-control" placeholder="Enter email here" aria-label="email"
+            aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">ID</span>
+        </div>
+        <input id="EmpID" type="text" class="form-control" placeholder="Enter ID here" aria-label="empID"
+            aria-describedby="basic-addon1">
+    </div>
+    <input type="submit" value="Add Employee" class="btn btn-primary">
+    </div>
+    </form>
+    <!--Table container-->
+    <table class="table container mt-3">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Employee ID</th>
+          </tr>
+        </thead>
+    <tbody id="employee-list"></tbody>
+    </table>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
