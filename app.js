@@ -129,3 +129,40 @@ document.querySelector('#employee-list').addEventListener('click', (e) => {
     UI.showAlert('Employee removed successfully!' , 'success');
 });
 
+auth.onAuthStateChanged(function(user){
+    if(user) {
+      console.log('User is currently logged in');
+      console.log(user.email);
+      var list = document.querySelector('.navbar-nav');
+      list.removeChild(document.querySelector('#signUpBtnItem'))
+      list.removeChild(document.querySelector('#loginBtnItem'))
+      createSignOutButton();
+      showContent();
+    }
+})
+
+function createSignOutButton(){
+    var li = document.createElement('LI');
+    var button = document.createElement('button');
+    button.id = 'signOutBtn';
+    button.innerHTML = 'Signout';
+    button.className = 'btn btn-secondary btn-sm';
+    button.addEventListener('click', (e) => {
+    
+        firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            console.log('Logged out successfully');
+            location.reload();
+          }).catch(function(error) {
+            // An error happened.
+          });
+        
+    })
+    li.appendChild(button);
+    document.querySelector('.navbar-nav').appendChild(li)
+}
+
+function showContent(){
+    var x = document.querySelector('.hidden-content');
+    x.style.display = "block";
+}
