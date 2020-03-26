@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee List</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <!--Navbar-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <h2 class="d-flex justify-content-center">Employee List</h2>
+    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li id="addEmpBtnItem" class="nav-item logged-in">
+          <button id="addEmpBtn" class="btn btn-sm btn-primary" type="button" data-toggle="modal"
+          data-target="#addEmpModal">Add Employee </button>
+        </li>
+        <li id="AccountBtnItem" class="nav-item logged-in">
+          <button id="AccountBtn" class="btn btn-sm btn-primary" type="button">Account </button>
+        </li>
+        <li id="signUpBtnItem" class="nav-item logged-out">
+          <button id="signUpBtn" class="btn btn-sm btn-primary" type="button" data-toggle="modal"
+            data-target="#signUpModal">Sign Up </button>
+        </li>
+        <li id="loginBtnItem" class="nav-item logged-out">
+          <button id="LoginBtn" class="btn btn-sm btn-primary" type="button" data-toggle="modal"
+            data-target="#LoginModal">Login </button>
+        </li>
+        <li id="LogoutBtnItem" class="nav-item logged-in">
+          <button id="LogoutBtn" class="btn btn-sm btn-primary" type="button">Logout </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sign Up Modal-->
+  <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Sign Up</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="signUpForm">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Email</span>
+              </div>
+              <input id="userEmail" type="text" class="form-control" placeholder="Enter email here" aria-label="email"
+                aria-describedby="basic-addon1">
+            </div>
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Password</span>
+              </div>
+              <input id="userPassword" type="password" autocomplete="off" class="form-control"
+                placeholder="Enter password" aria-label="password" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Re-enter Password</span>
+              </div>
+              <input id="userPassword2" type="password" autocomplete="off" class="form-control"
+                placeholder="Re-enter password" aria-label="password2" aria-describedby="basic-addon1">
+            </div>
+        </div>
+        </form>
+        <div class="modal-footer">
+          <input id="signupBtn" type="submit" value="Submit" class="btn btn-primary">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Login Modal-->
+  <div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModal" aria-hidden="true"
+    data-backdrop="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="LoginLabel">Login</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="loginModalCont" class="modal-body">
+          <form id="LoginForm">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Email</span>
+              </div>
+              <input id="loginEmail" type="text" class="form-control" placeholder="Enter email here" aria-label="email"
+                aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Password</span>
+              </div>
+              <input id="loginPassword" type="password" autocomplete="on" class="form-control"
+                placeholder="Enter password" aria-label="password" aria-describedby="basic-addon1">
+            </div>
+        </div>
+        </form>
+        <div class="modal-footer">
+          <input id="loginBtn" type="submit" value="Submit" class="btn btn-primary">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Add Employee Modal-->
+  <div class="modal fade" id="addEmpModal" tabindex="-1" role="dialog" aria-labelledby="LoginModal" aria-hidden="true"
+    data-backdrop="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="LoginLabel">Add Employee</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="addEmpCont" class="modal-body">
+          <form id="employee-form">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">First Name</span>
+              </div>
+              <input id="firstName" type="text" class="form-control" placeholder="Enter first name here" aria-label="First Name"
+                aria-describedby="basic-addon1">
+            </div>
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Last Name</span>
+              </div>
+              <input id="lastName" type="text" class="form-control" placeholder="Enter Last Name here" aria-label="Last Name"
+                aria-describedby="basic-addon1">
+            </div>
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">ID</span>
+              </div>
+              <input id="EmpID" type="text" class="form-control" placeholder="Enter ID here" aria-label="empID"
+                aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Gender</span>
+              </div>
+              <input id="EmpGender" type="text" class="form-control" placeholder="Enter Gender Here" aria-label="empGender"
+                aria-describedby="basic-addon1">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <input id="addEmp" type="submit" value="Submit" class="btn btn-primary">
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!--(Hidden) Table-->
+  <div class="hidden-content">
+    <table class="table container mt-3">
+      <thead>
+        <tr>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">ID</th>
+          <th scope="col">Gender</th>
+          <th scope="col">Effective Date</th>
+        </tr>
+      </thead>
+      <tbody class="employee-list"></tbody>
+    </table>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCyfF2U3bMQDJOyptjZkzDsa4aZSgUdFnY",
+      authDomain: "employeelist-3ae20.firebaseapp.com",
+      databaseURL: "https://employeelist-3ae20.firebaseio.com",
+      projectId: "employeelist-3ae20",
+      storageBucket: "employeelist-3ae20.appspot.com",
+      messagingSenderId: "1066857388288",
+      appId: "1:1066857388288:web:824b095eace7fb94663be5",
+      measurementId: "G-4H3QCHF908"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    auth = firebase.auth();
+    db = firebase.firestore();
+  </script>
+  <script src="app.js"></script>
+  <script src="signup.js"></script>
+  <script src="signout.js"></script>
+  <script src="login.js"></script>
+
+</body>
+
+</html>

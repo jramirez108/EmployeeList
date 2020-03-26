@@ -8,13 +8,15 @@ document.querySelector('#signupBtn').addEventListener('click', (e) => {
     if(checkPassword(password, password2)){
     auth.createUserWithEmailAndPassword(email, password).then(cred =>
         {
-        $('#signUpModal').modal('toggle');
+            return db.collection('users').doc(cred.user.uid).collection('employees').add({});
         }).catch(function(error) {
         // Handle Errors here.
         var errorMessage = error.message;
         showAlert(errorMessage, 'danger')
         // ...
-      })
+      }).then(() =>{
+        $('#signUpModal').modal('toggle');
+    })
     }
     })
 

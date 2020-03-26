@@ -1,8 +1,6 @@
-console.log(document.querySelector('#signOutBtn'));
-document.querySelector('#signOutBtn').addEventListener('click', (e) => {
-    
+document.querySelector('#LogoutBtn').addEventListener('click', (e) => {
     firebase.auth().signOut().then(function() {
-        // Sign-out successful.
+        
       }).catch(function(error) {
         // An error happened.
       });

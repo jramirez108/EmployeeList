@@ -1,4 +1,4 @@
-.hidden-content{
+.hidden-content, .logged-out, .logged-in{
     display : none;
 }
 

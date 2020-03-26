@@ -1,48 +1,35 @@
-// Employee Class
-class Employee {
-    constructor(name, email, id){
-        this.name = name;
-        this.email = email;
-        this.id = id;
-    }
-}
+
 //UI Class
-class UI{
-    static displayEmployees(){
-        const StoredEmp = Store.getEmps();
+class UI {
+    static displayEmployees() {
+        const tableContent = document.querySelector('.employee-list');
+        var user = auth.currentUser;
+        console.log(user);
+        db.collection('users').doc(user.uid).collection('employees').onSnapshot({includeMetadataChanges: false}, snapshot => {
+            setupList(snapshot.docs);
+            console.log(snapshot.docs);
+        })
+
+    function setupList(data) {
+            let html = '';
+            data.forEach(doc => {
+                const emp = doc.data();
+                const tr = `<tr>
+        <td>${emp.First}</td>
+        <td>${emp.Last}</td>
+        <td>${emp.ID}</td>
+        <td>${emp.Gender}</td>
+        <td>${emp.Effective.toDate()}</td>
+        <td><button type="button" class="btn btn-danger btn-sm">X</button></td>
+        </tr>
+        `
+        tableContent.innerHTML += tr;
+            })
             
-
-        const employees = StoredEmp;
-
-        employees.forEach((emp) => UI.addEmployeeToList(emp));
-    }
-
-    static addEmployeeToList(emp){
-        const list = document.querySelector('#employee-list');
-
-        const row = document.createElement('tr');
-        row.innerHTML= `
-        <td>${emp.name}</td>
-        <td>${emp.email}</td>
-        <td>${emp.id}</td>
-        <td><a href="#" class="btn btn-danger btn-sm delete">X</a></td>
-        `;
-
-        list.appendChild(row);
-    }
-
-    static deleteEmployee(el){
-        if(el.classList.contains('delete')){
-            el.parentElement.parentElement.remove();
         }
     }
-    static clearFields(){
-        document.querySelector('#name').value = '';
-        document.querySelector('#email').value = '';
-        document.querySelector('#EmpID').value = '';
-    }
 
-    static showAlert(message, className){
+    static showAlert(message, className) {
         const div = document.createElement('div');
         div.className = `alert alert-${className}`;
         div.appendChild(document.createTextNode(message));
@@ -55,114 +42,61 @@ class UI{
     }
 }
 
+const addEmployeeBtn = document.querySelector("#employee-form");
+console.log(addEmployeeBtn);
 
-//Local Storage
-class Store {
-    static getEmps(){
-        let emps;
-        if(localStorage.getItem('emps') === null){
-            emps = [];
-        }else{
-            emps = JSON.parse(localStorage.getItem('emps'));  
-        }
-
-        return emps;
-    }
-
-    static addEmp(emp){
-        const emps = Store.getEmps();
-        emps.push(emp);
-
-        localStorage.setItem('emps', JSON.stringify(emps));
-    }
-
-    static removeEmp(id){
-        const emps = Store.getEmps();
-
-        emps.forEach((emp, index) => {
-            if(emp.id === id){
-                emps.splice(index, 1);
-            }
-        });
-
-        localStorage.setItem('emps', JSON.stringify(emps));
-    }
-}
-
-
-//Event: display employees
-document.addEventListener('DOMContentLoaded', UI.displayEmployees);
-
-//Event: add employee
-document.querySelector('#employee-form').addEventListener('submit', (e)=> {
+addEmployeeBtn.addEventListener('submit', (e) =>{
     
     e.preventDefault();
-
-    //get for mvalues
-    const name = document.querySelector('#name').value;
-    const email = document.querySelector('#email').value;
-    const id = document.querySelector('#EmpID').value;
+    db.collection('users').doc(auth.currentUser.uid).collection('employees').add({
+        First: addEmployeeBtn['firstName'].value,
+        Last: addEmployeeBtn['lastName'].value,
+        Gender: addEmployeeBtn['EmpID'].value,
+        ID: addEmployeeBtn['EmpGender'].value, 
+        Effective: firebase.firestore.Timestamp.now()
+    }).then(() => {
+    addEmployeeBtn.reset();
+    $('#addEmpModal').modal('toggle');
+    })
     
-    //Validate
-    if(name === '' || email === '' || id === ''){
-        UI.showAlert('Please fill in all fields', 'danger');
-    }
-    else{
-        const emp = new Employee(name, email, id);
-    
-        UI.addEmployeeToList(emp);
-
-        Store.addEmp(emp);
-
-        UI.showAlert('Employee added successfully!' , 'success');
-    
-        UI.clearFields();
-    }  
-})
-
-
-//Evenet: remove employee
-document.querySelector('#employee-list').addEventListener('click', (e) => {
-    UI.deleteEmployee(e.target);
-
-    Store.removeEmp(e.target.parentElement.previousElementSibling.textContent);
-    UI.showAlert('Employee removed successfully!' , 'success');
 });
 
-auth.onAuthStateChanged(function(user){
-    if(user) {
-      console.log('User is currently logged in');
-      console.log(user.email);
-      var list = document.querySelector('.navbar-nav');
-      list.removeChild(document.querySelector('#signUpBtnItem'))
-      list.removeChild(document.querySelector('#loginBtnItem'))
-      createSignOutButton();
-      showContent();
+
+auth.onAuthStateChanged(function (user) {
+    if (user) {
+        console.log('User is currently logged in');
+        console.log(user.email);
+        var list = document.querySelector('.navbar-nav');
+        showNavbarItems(user);
+        showContent(user);
+        UI.displayEmployees();
+    } else {
+        console.log('User not logged in');
+        showNavbarItems();
+        showContent();
     }
 })
 
-function createSignOutButton(){
-    var li = document.createElement('LI');
-    var button = document.createElement('button');
-    button.id = 'signOutBtn';
-    button.innerHTML = 'Signout';
-    button.className = 'btn btn-secondary btn-sm';
-    button.addEventListener('click', (e) => {
-    
-        firebase.auth().signOut().then(function() {
-            // Sign-out successful.
-            console.log('Logged out successfully');
-            location.reload();
-          }).catch(function(error) {
-            // An error happened.
-          });
-        
-    })
-    li.appendChild(button);
-    document.querySelector('.navbar-nav').appendChild(li)
+function showContent(user) {
+    if (user) {
+        var x = document.querySelector('.hidden-content');
+        x.style.display = "block";
+    } else {
+        var x = document.querySelector('.hidden-content');
+        x.style.display = "none";
+
+    }
 }
 
-function showContent(){
-    var x = document.querySelector('.hidden-content');
-    x.style.display = "block";
+const loggedOutLinks = document.querySelectorAll('.logged-out');
+const loggedInLinks = document.querySelectorAll('.logged-in');
+
+function showNavbarItems(user) {
+    if (user) {
+        loggedInLinks.forEach(item => item.style.display = 'block');
+        loggedOutLinks.forEach(item => item.style.display = 'none');
+    } else {
+        loggedInLinks.forEach(item => item.style.display = 'none');
+        loggedOutLinks.forEach(item => item.style.display = 'block');
+    }
 }
